@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='css/stylesDrop.css') }}"
+      rel="stylesheet"
+    />
+    <script src="/static/javascript/script.js"></script>
+    <title>MusicGen</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="site-screen">
+      <header class="site-header">
+        <div class="site-inner-header">
+          <div class="site-logo-header">
+            <a href="http://127.0.0.1:4000/">
+              <h1 href="http://127.0.0.1:4000/">Music</h1><h1 href="http://127.0.0.1:4000/" style="font-weight: 800">Gen</h1>
+            </a>
+          </div>
+          <ul class="site-navigation">
+            <a href="Main.html"><li>Home</li></a>
+            <a href="Main.html"><li>About</li></a>
+            <a href="Main.html"><li>Contact</li></a>
+          </ul>
+        </div>
+      </header>
+    </div>
+    <div class="container">
+      <form
+        action="/upload"
+        class="dropzone dz-clickable"
+        enctype="multipart/form-data"
+        id="myDropzone"
+        method="post"
+      >
+        <div class="dz-default dz-message">
+          <span>Drop files here or click to upload</span>
+        </div>
+      
+      </div>
+    </form>
+    <div class="center">
+      <form action="/getResult" method="get">
+      <button class="add-input" href="javascript:void(0);" id="upload-btn">
+        Upload
+      </button>
+    </form>
+    </div>
+      <script src="/dropzone/static/dropzone.min.js"></script>
+      <script>
+         
+        Dropzone.options.myDropzone = {
+          init: function () {
+            // redirect after queue complete
+            // upload queue when button click
+            dz = this;
+            document
+              .getElementById("upload-btn")
+              .addEventListener("click", function handler(e) {
+                dz.processQueue();
+              }); // custom init code
+          },
+          
+          // click upload options
+          uploadMultiple: false,
+          parallelUploads: 2,
+          paramName: "file", // The name that will be used to transfer the file
+          maxFilesize: 100, // MB
+          acceptedFiles: ".mp3",
+          maxFiles: 1,
+          dictDefaultMessage: `Drop files here or click to upload.`, // message display on drop area
+          dictFallbackMessage:
+            "Your browser does not support drag'n'drop file uploads.",
+          dictInvalidFileType: "You can't upload files of this type.",
+          dictFileTooBig: "File is too big . Max filesize: MiB.",
+          dictResponseError: "Server error: ",
+          dictMaxFilesExceeded: "You can't upload any more files.",
+          dictCancelUpload: "Cancel upload",
+          dictRemoveFile: "Remove file",
+          dictCancelUploadConfirmation: "You really want to delete this file?",
+          dictUploadCanceled: "Upload canceled",
+          autoProcessQueue: true,
+          addRemoveLinks: true,
+          parallelUploads: 20, // custom options code
+        };
+      </script>
+    <script>
+      $(document).ready(function () {
+        var max_input_fields = 2;
+        var add_input = $(".add-input");
+        var input_wrapper = $(".input-wrapper");
+        var new_input = "";
+        var add_input_count = 1;
+        $(add_input).click(function () {
+          if (add_input_count < max_input_fields) {
+            add_input_count++;
+            $(input_wrapper).append(new_input);
+          }
+        });
+        $(input_wrapper).on("click", ".remove-input", function (e) {
+          e.preventDefault();
+          $(this).parent("div").remove();
+          add_input_count--;
+        });
+      });
+    </script>
+    <input
+      accept=".mp3"
+      class="dz-hidden-input"
+      multiple="multiple"
+      style="
+        visibility: hidden;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 0px;
+        width: 0px;
+      "
+      type="file"
+    />
+  </body>
+</html>
